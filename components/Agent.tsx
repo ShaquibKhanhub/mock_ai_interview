@@ -116,9 +116,12 @@ const Agent = ({
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      // 🔹 Start a Workflow
+      // Start Workflow (old syntax)
       await vapi.start(
-        { workflowId: process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID! },
+        undefined, // no assistant
+        undefined, // no squad
+        undefined, // no overrides
+        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, // workflow ID
         {
           variableValues: {
             username: userName,
@@ -132,15 +135,12 @@ const Agent = ({
         formattedQuestions = questions.map((q) => `- ${q}`).join("\n");
       }
 
-      // 🔹 Start an Assistant
-      await vapi.start(
-        { assistantId: interviewer },
-        {
-          variableValues: {
-            questions: formattedQuestions,
-          },
-        }
-      );
+      // Start Assistant
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        },
+      });
     }
   };
 
