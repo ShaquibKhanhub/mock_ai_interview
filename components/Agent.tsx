@@ -116,12 +116,11 @@ const Agent = ({
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      // Start Workflow (old syntax)
       await vapi.start(
-        undefined, // no assistant
-        undefined, // no squad
-        undefined, // no overrides
-        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, 
+        undefined,
+        undefined,
+        undefined,
+        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!,
         {
           variableValues: {
             username: userName,
@@ -132,10 +131,11 @@ const Agent = ({
     } else {
       let formattedQuestions = "";
       if (questions) {
-        formattedQuestions = questions.map((q) => `- ${q}`).join("\n");
+        formattedQuestions = questions
+          .map((question) => `- ${question}`)
+          .join("\n");
       }
 
-      // Start Assistant
       await vapi.start(interviewer, {
         variableValues: {
           questions: formattedQuestions,
@@ -143,7 +143,6 @@ const Agent = ({
       });
     }
   };
-
   const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
     vapi.stop();
