@@ -116,25 +116,31 @@ const Agent = ({
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
-        variableValues: {
-          username: userName,
-          userid: userId,
-        },
-      });
+      // 🔹 Start a Workflow
+      await vapi.start(
+        { workflowId: process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID! },
+        {
+          variableValues: {
+            username: userName,
+            userid: userId,
+          },
+        }
+      );
     } else {
       let formattedQuestions = "";
       if (questions) {
-        formattedQuestions = questions
-          .map((question) => `- ${question}`)
-          .join("\n");
+        formattedQuestions = questions.map((q) => `- ${q}`).join("\n");
       }
 
-      await vapi.start(interviewer, {
-        variableValues: {
-          questions: formattedQuestions,
-        },
-      });
+      // 🔹 Start an Assistant
+      await vapi.start(
+        { assistantId: interviewer },
+        {
+          variableValues: {
+            questions: formattedQuestions,
+          },
+        }
+      );
     }
   };
 
