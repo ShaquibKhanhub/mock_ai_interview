@@ -121,7 +121,7 @@ const Agent = ({
         undefined, // no assistant
         undefined, // no squad
         undefined, // no overrides
-        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, // workflow ID
+        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, 
         {
           variableValues: {
             username: userName,
